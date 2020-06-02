@@ -39,7 +39,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     	Label[] ArrayLabels ; 
     	
     	ArrayLabels = InitialiseLabels() ; 
-    	
+    	 int nb_explored = 0 ;
+    	 int nb_marked = 0 ;
+    	 
         // Notify observers about the first event (origin processed).
         notifyOriginProcessed(data.getOrigin());
 
@@ -69,6 +71,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	
         	CurrentLabel = Heap.deleteMin() ; 
         	CurrentLabel.setMarkTrue();
+        	nb_marked ++ ; 
         	
         	System.out.println("Cout :" + CurrentLabel.getCost());
         	
@@ -97,10 +100,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 		        					Heap.remove(IterDestination);
 		        				} catch(ElementNotFoundException e) {}
 		        				
-		        				
+		        				nb_explored ++ ;
 		        				IterDestination.setCost(CurrentLabel.getCost() + data.getCost(ArcIter));
 		        				IterDestination.setFather(ArcIter);
-		        				
+		        			
 		        				Heap.insert(IterDestination);
 		        			}
 	        		}
@@ -154,7 +157,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
 		/* System.out.println(" Iterations : " + nbrIter + "iterations"); 
         System.out.println(" Arcs: " + nbrArcs + "arcs"); */ 
-		
+		System.out.println(" Nombre Noeud visités " + nb_explored );
+		System.out.println(" Nombre Noeud Marqués " + nb_marked );
 		        return solution;
     }
 
