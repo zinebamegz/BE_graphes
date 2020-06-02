@@ -118,7 +118,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             notifyDestinationReached(data.getDestination());
             
             // Empty Path
-            if(data.getOrigin().compareTo(data.getDestination()) == 0) {
+            if(data.getOrigin().compareTo(data.getDestination()) == 0) { 
             	// Create the final solution.
                 solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph));
                 System.out.println("Chemin Vide") ; 
