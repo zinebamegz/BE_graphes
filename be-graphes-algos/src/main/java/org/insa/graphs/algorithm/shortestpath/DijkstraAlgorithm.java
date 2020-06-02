@@ -70,7 +70,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	CurrentLabel = Heap.deleteMin() ; 
         	CurrentLabel.setMarkTrue();
         	
-        	//System.out.println("Cout :" + CurrentLabel.getCost());
+        	System.out.println("Cout :" + CurrentLabel.getCost());
         	
         	/*Notify observers about the node being marked*/ 
         	notifyNodeMarked(CurrentLabel.getCurrentNode());
@@ -107,9 +107,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		}
         	}
         }
-        
+       
         // Destination has no predecessor, the solution is infeasible...
-		if(DestinationLabel.getFather()==null || !DestinationLabel.isMarked()) {
+		if((DestinationLabel.getFather()==null && (data.getOrigin().compareTo(data.getDestination())!= 0)  ) || !DestinationLabel.isMarked()) {
 			System.out.println("Chemin impossible") ; 
 			solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         } else {
@@ -120,8 +120,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             // Empty Path
             if(data.getOrigin().compareTo(data.getDestination()) == 0) { 
             	// Create the final solution.
-                solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph));
-                System.out.println("Chemin Vide") ; 
+            	System.out.println("Chemin Vide") ; 
+               solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph));
+                
             }else {
    
             // Create the path from the array of predecessors...
