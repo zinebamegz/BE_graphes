@@ -159,10 +159,9 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
 	    E LastElement= this.array.get(--this.currentSize);
 	    	
 	    this.arraySet(index, LastElement);
+	    this.percolateDown(index);
 		this.percolateUp(index);
-		this.percolateDown(index);
-	
-        
+		
     }
   
 

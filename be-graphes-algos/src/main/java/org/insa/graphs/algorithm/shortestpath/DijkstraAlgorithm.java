@@ -70,6 +70,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	CurrentLabel = Heap.deleteMin() ; 
         	CurrentLabel.setMarkTrue();
         	
+        	//System.out.println("Cout :" + CurrentLabel.getCost());
+        	
         	/*Notify observers about the node being marked*/ 
         	notifyNodeMarked(CurrentLabel.getCurrentNode());
 
@@ -95,6 +97,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 		        					Heap.remove(IterDestination);
 		        				} catch(ElementNotFoundException e) {}
 		        				
+		        				
 		        				IterDestination.setCost(CurrentLabel.getCost() + data.getCost(ArcIter));
 		        				IterDestination.setFather(ArcIter);
 		        				
@@ -106,37 +109,52 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         
         // Destination has no predecessor, the solution is infeasible...
-		if(DestinationLabel.getCost() == 0 || !DestinationLabel.isMarked()) {
-			
+		if(DestinationLabel.getFather()==null || !DestinationLabel.isMarked()) {
+			System.out.println("Chemin impossible") ; 
 			solution = new ShortestPathSolution(data, Status.INFEASIBLE);
-			
         } else {
         	
         	// The destination has been found, notify the observers.
             notifyDestinationReached(data.getDestination());
             
-         // Create the path from the array of predecessors...
+            // Empty Path
+            if(data.getOrigin().compareTo(data.getDestination()) == 0) {
+            	// Create the final solution.
+                solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph));
+                System.out.println("Chemin Vide") ; 
+            }else {
+   
+            // Create the path from the array of predecessors...
         	ArrayList<Arc> arcs = new ArrayList<>();
         	
         	while(!CurrentLabel.equals(OriginLabel)) {
-        	
         		// System.out.println("Cost of label " + CurrentLabel.getCost());
-        		
         		arcs.add(CurrentLabel.getFather());
         		CurrentLabel = ArrayLabels[CurrentLabel.getFather().getOrigin().getId()];
         		
         	}
         	// Reverse the path...
             Collections.reverse(arcs);
+          
+            Path path = new Path(graph, arcs) ; 
             
-            // Create the final solution.
-            solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
+            if(path.isValid()) {
+                // Create the final solution.
+                solution = new ShortestPathSolution(data, Status.OPTIMAL, path);
+                System.out.println("Chemin Valide") ; 
+                
+            } else {
+            	System.out.println("Chemin non Valide") ; 
+            }
+      
+            }
+        	
         }
-		
+
 		/* System.out.println(" Iterations : " + nbrIter + "iterations"); 
         System.out.println(" Arcs: " + nbrArcs + "arcs"); */ 
 		
-        return solution;
+		        return solution;
     }
 
 }

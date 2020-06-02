@@ -5,7 +5,6 @@ import org.insa.graphs.model.Node;
 
 public class LabelStar extends Label implements Comparable<Label> {
 
-
 	private double EstimatedCost;
 	
 	public LabelStar (Node CurrentNode) {
@@ -23,7 +22,7 @@ public class LabelStar extends Label implements Comparable<Label> {
 	        this.EstimatedCost = EstimatedCost;
 	    } 
     public int compareTo(LabelStar label) {
-    	return Double.compare(this.getEstimatedCost(), label.getTotalCost() - label.getCost());
+    	return Double.compare(this.getEstimatedCost(), label.getEstimatedCost());
 	}
 }
 
